@@ -18,7 +18,7 @@ const PlayerList = (props) => {
 
     const handleDeletePlayer = (id) => {
         axios.delete(`http://localhost:8000/player/${id}`)
-            .then((response) => {
+                .then((response) => {
                 console.log("success deleting player");
                 console.log(response);
             const filteredPlayers = players.filter((player) => {        // this is the removeFromDom
@@ -28,8 +28,8 @@ const PlayerList = (props) => {
             })
             .catch((err) => {
                 console.log("error deleting player", err.response);
-            });
-    };
+            })
+    }
 
     return (
         <div>

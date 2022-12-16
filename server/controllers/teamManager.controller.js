@@ -22,6 +22,16 @@ module.exports = {
         })
     },
 
+    getOnePlayer:(req,res) => {                // get one player by id
+        Player.findOne({_id:req.params.id})
+            .then((onePlayer) => {
+                res.json(onePlayer)
+            })
+            .catch((err) => {
+                res.status(400).json({err})
+            });
+    }, 
+
     deletePlayer:(req,res) => {             // delete player
         Player.deleteOne({_id: req.params.id})
         .then((deletedPlayer) => {

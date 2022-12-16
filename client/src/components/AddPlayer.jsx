@@ -28,9 +28,9 @@ const AddPlayer = (props) => {
     }
 
     return (
-        <form className="col-6 mt-5 new-author" onSubmit={onSubmitHandler}>
+        <form className="col-6 player-list" onSubmit={onSubmitHandler}>
             <h1 className="align-self-start mt-2 mb-3"><Link to={'/players/list'} className='link-color'>List</Link> | <Link to={'/players/addplayer'} className='link-color'>Add Player</Link></h1>
-            <div className="player-form">
+            <div className="player-form align-self-center">
                 <p>Add a new Player:</p>
                 <div>
                     <div className="form-floating mb-3">
