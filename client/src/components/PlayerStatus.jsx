@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from "react";
 import axios from 'axios';
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 const PlayerStatus = (props) => {
 
     const [players,setPlayers] = useState([])
     const gameId = useParams()                      // it absolutely WOULD NOT take the prop from the link, I don't know why. use Params worked but I had to make every instance of gameId become gameId.gameId
+    const [triggerGetAllRequestDummy, setTriggerGetAllRequestDummy] = useState(false);  // THIS is what reloads the player list after the game status is updated
+
 
     useEffect(()=>{                                 // gets player list
         axios.get("http://localhost:8000/team")
@@ -15,7 +17,7 @@ const PlayerStatus = (props) => {
         .catch((err)=>{
             console.log(err);
         })
-    }, [])
+    }, [triggerGetAllRequestDummy])                 // function is called when trigger is changed
 
     const handleGameStatus = (playerId, newStatus) => {
         let putData = {};
@@ -29,13 +31,15 @@ const PlayerStatus = (props) => {
         axios.put(`http://localhost:8000/player/${playerId}`, putData)
             .then((response) => {
             console.log(response);
+            setTriggerGetAllRequestDummy(!triggerGetAllRequestDummy);   // calls the useeffect
             })
             .catch((err) => console.log(err.response));
     };
 
     return (
-        <div>
-            <h1>Player Status - Game {gameId.gameId}</h1>
+        <div className="player-list">
+            <h1 className="align-self-start">Player Status - Game {gameId.gameId}</h1>
+            <h4><Link to={'/status/game/1'} className='link-color'>Game 1</Link> | <Link to={'/status/game/2'} className='link-color'>Game 2</Link> | <Link to={'/status/game/3'} className='link-color'>Game 3</Link></h4>
             <table className="table table-border">
                 <thead>
                     <tr>
@@ -55,8 +59,8 @@ const PlayerStatus = (props) => {
                                 <button
                                 className={`${
                                     player.gameOneStatus === "Playing"
-                                    ? "green-playing-btn"
-                                    : ""
+                                    ? "btn btn-success me-2"
+                                    : "btn btn-outline-success me-2"
                                 }`}
                                 onClick={() =>
                                     handleGameStatus(player._id, "Playing")
@@ -65,8 +69,8 @@ const PlayerStatus = (props) => {
                                 <button
                                 className={`${
                                     player.gameOneStatus === "Not Playing"
-                                    ? "red-not-playing-btn"
-                                    : ""
+                                    ? "btn btn-danger me-2"
+                                    : "btn btn-outline-danger me-2"
                                 }`}
                                 onClick={() =>
                                     handleGameStatus(player._id, "Not Playing")
@@ -77,8 +81,8 @@ const PlayerStatus = (props) => {
                                 <button
                                 className={`${
                                     player.gameOneStatus === "Undecided"
-                                    ? "yellow-undecided-btn"
-                                    : ""
+                                    ? "btn btn-warning"
+                                    : "btn btn-outline-warning"
                                 }`}
                                 onClick={() =>
                                     handleGameStatus(player._id, "Undecided")
@@ -103,8 +107,8 @@ const PlayerStatus = (props) => {
                                 <button
                                 className={`${
                                     player.gameTwoStatus === "Playing"
-                                    ? "green-playing-btn"
-                                    : ""
+                                    ? "btn btn-success me-2"
+                                    : "btn btn-outline-success me-2"
                                 }`}
                                 onClick={() =>
                                     handleGameStatus(player._id, "Playing")
@@ -115,8 +119,8 @@ const PlayerStatus = (props) => {
                                 <button
                                 className={`${
                                     player.gameTwoStatus === "Not Playing"
-                                    ? "red-not-playing-btn"
-                                    : ""
+                                    ? "btn btn-danger me-2"
+                                    : "btn btn-outline-danger me-2"
                                 }`}
                                 onClick={() =>
                                     handleGameStatus(player._id, "Not Playing")
@@ -127,8 +131,8 @@ const PlayerStatus = (props) => {
                                 <button
                                 className={`${
                                     player.gameTwoStatus === "Undecided"
-                                    ? "yellow-undecided-btn"
-                                    : ""
+                                    ? "btn btn-warning"
+                                    : "btn btn-outline-warning"
                                 }`}
                                 onClick={() =>
                                     handleGameStatus(player._id, "Undecided")
@@ -153,8 +157,8 @@ const PlayerStatus = (props) => {
                                 <button
                                 className={`${
                                     player.gameThreeStatus === "Playing"
-                                    ? "green-playing-btn"
-                                    : ""
+                                    ? "btn btn-success me-2"
+                                    : "btn btn-outline-success me-2"
                                 }`}
                                 onClick={() =>
                                     handleGameStatus(player._id, "Playing")
@@ -165,8 +169,8 @@ const PlayerStatus = (props) => {
                                 <button
                                 className={`${
                                     player.gameThreeStatus === "Not Playing"
-                                    ? "red-not-playing-btn"
-                                    : ""
+                                    ? "btn btn-danger me-2"
+                                    : "btn btn-outline-danger me-2"
                                 }`}
                                 onClick={() =>
                                     handleGameStatus(player._id, "Not Playing")
@@ -177,8 +181,8 @@ const PlayerStatus = (props) => {
                                 <button
                                 className={`${
                                     player.gameThreeStatus === "Undecided"
-                                    ? "yellow-undecided-btn"
-                                    : ""
+                                    ? "btn btn-warning"
+                                    : "btn btn-outline-warning"
                                 }`}
                                 onClick={() =>
                                     handleGameStatus(player._id, "Undecided")
